@@ -59,6 +59,9 @@ body {
   justify-content: center;
   padding: 20px 0;
   background: linear-gradient(90deg, #00babc, #ffff00);
+  border-radius: 0 0 20px 20px;
+  max-width: calc(100vw - 10px);
+  margin: 0 auto;
 }
 
 @media screen and (max-width: 1199px) {
@@ -373,6 +376,8 @@ body {
   .search__header {
     justify-content: space-evenly;
     transition: opacity 250ms linear, padding 250ms linear;
+    border-radius: 0 0 30px 30px;
+    max-width: calc(100vw - 20px);
   }
   .search__input {
     padding: 8px 35px;
