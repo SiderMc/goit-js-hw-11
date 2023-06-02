@@ -52,15 +52,14 @@ async function response(value, page, order) {
 
       if (page === 1) {
         Notify.success(`Hooray! We found ${totalHits} images`);
-      }
-
-      if (hits.length < data.totalHits) {
-        showLoadMoreButton();
-      } else {
+      } else if (refs.gallery.children.length >= totalHits) {
+        console.log(refs.gallery.children.length);
         removeLoadMoreButton();
         Notify.info(
           "We're sorry, but you've reached the end of search results."
         );
+      } else {
+        showLoadMoreButton();
       }
     } else {
       Notify.failure(

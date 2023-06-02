@@ -10,7 +10,7 @@ async function fetchResponse(value, page, sort) {
     q: value,
     per_page: 40,
     page,
-    order: sort,
+    order: sort || 'views',
   });
   const response = await axios.get(
     `${BASE_URL}?key=${KEY}&${params.toString()}`

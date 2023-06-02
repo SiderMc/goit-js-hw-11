@@ -377,7 +377,7 @@ body {
     justify-content: space-evenly;
     transition: opacity 250ms linear, padding 250ms linear;
     border-radius: 0 0 30px 30px;
-    max-width: calc(100vw - 20px);
+    max-width: calc(1440px - 30px);
   }
   .search__input {
     padding: 8px 35px;
