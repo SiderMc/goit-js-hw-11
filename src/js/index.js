@@ -21,7 +21,6 @@ refs.form.addEventListener('submit', renderingList);
 
 let page = 1;
 let searchQuery = '';
-let isLastPage = false;
 
 function renderingList(e) {
   e.preventDefault();
@@ -37,39 +36,41 @@ function renderingList(e) {
   response(searchQuery, page);
   e.currentTarget.reset();
 }
-
 async function response(value, page, order) {
   try {
     const data = await fetchResponse(value, page, order);
 
     if (data.hits.length !== 0) {
-      refs.headerSearch.classList.add('open');
-      const { hits, totalHits } = data;
-      refs.gallery.insertAdjacentHTML(
-        'beforeend',
-        hits.map(markupCards).join('')
-      );
-      initLightbox();
-
       if (page === 1) {
+        clearGallery();
+        refs.headerSearch.classList.add('open');
+        const { hits, totalHits } = data;
+        refs.gallery.insertAdjacentHTML(
+          'beforeend',
+          hits.map(markupCards).join('')
+        );
+        initLightbox();
         Notify.success(`Hooray! We found ${totalHits} images`);
-      }
-
-      const totalPages = Math.ceil(totalHits / 40);
-
-      if (page === totalPages) {
-        isLastPage = true;
-      }
-
-      if (!isLastPage) {
-        showLoadMoreButton();
       } else {
+        const { hits } = data;
+        refs.gallery.insertAdjacentHTML(
+          'beforeend',
+          hits.map(markupCards).join('')
+        );
+        initLightbox();
+      }
+
+      const totalPages = Math.ceil(data.totalHits / 40);
+      if (page === totalPages) {
         removeLoadMoreButton();
         Notify.info(
           "We're sorry, but you've reached the end of search results."
         );
+      } else {
+        showLoadMoreButton();
       }
     } else {
+      clearGallery();
       Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
       );
