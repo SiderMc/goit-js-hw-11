@@ -21,6 +21,7 @@ refs.form.addEventListener('submit', renderingList);
 
 let page = 1;
 let searchQuery = '';
+let isLastPage = false;
 
 function renderingList(e) {
   e.preventDefault();
@@ -52,14 +53,21 @@ async function response(value, page, order) {
 
       if (page === 1) {
         Notify.success(`Hooray! We found ${totalHits} images`);
-      } else if (refs.gallery.children.length >= totalHits) {
-        console.log(refs.gallery.children.length);
+      }
+
+      const totalPages = Math.ceil(totalHits / 40);
+
+      if (page === totalPages) {
+        isLastPage = true;
+      }
+
+      if (!isLastPage) {
+        showLoadMoreButton();
+      } else {
         removeLoadMoreButton();
         Notify.info(
           "We're sorry, but you've reached the end of search results."
         );
-      } else {
-        showLoadMoreButton();
       }
     } else {
       Notify.failure(
@@ -102,7 +110,6 @@ function loadMoreImages() {
 function initLightbox() {
   const lightbox = new SimpleLightbox('.gallery a', {
     captionDelay: 250,
-
     overlayOpacity: 1,
     captionsData: 'alt',
     disableScroll: false,
